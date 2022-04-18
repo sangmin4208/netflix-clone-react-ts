@@ -59,8 +59,8 @@ const Tv = () => {
   const onOverlayClick = () => {
     navigate(router.tv)
   }
-  const onBoxClicked = (id: number) => {
-    navigate(`/tv/${id}?type=tv`)
+  const onBoxClicked = (id: number, layoutId: string, type?: string) => {
+    navigate(`/tv/${id}?type=tv&layoutId=${layoutId}`)
   }
   const clickedTv = useMemo(() => {
     if (!bigTvMatch || !todayTvData || !popTvData || !topTvData) { return }
@@ -77,10 +77,10 @@ const Tv = () => {
               overview={todayTvData[0].overview}
               image={todayTvData[0].backdrop_path}
             />}
-          {todayTvData && <Slider onBoxClicked={onBoxClicked} title={"현재"} videos={todayTvData.slice(1)}></Slider>}
-          {popTvData && <Slider onBoxClicked={onBoxClicked} title={"인기"} videos={popTvData}></Slider>}
-          {topTvData && <Slider onBoxClicked={onBoxClicked} title={"최고 평점"} videos={topTvData}></Slider>}
-          <AnimatePresence>
+          <AnimatePresence exitBeforeEnter >
+            {todayTvData && <Slider onBoxClicked={onBoxClicked} title={"현재"} videos={todayTvData.slice(1)}></Slider>}
+            {popTvData && <Slider onBoxClicked={onBoxClicked} title={"인기"} videos={popTvData}></Slider>}
+            {topTvData && <Slider onBoxClicked={onBoxClicked} title={"최고 평점"} videos={topTvData}></Slider>}
             {bigTvMatch ? <>
               <Overlay onClick={onOverlayClick} exit={{ opacity: 0 }} animate={{ opacity: 1 }} />
               {clickedTv && <Modal type="movie" id={bigTvMatch.params.id!} title={clickedTv.title} image={makeImagePath(clickedTv.backdrop_path, "w500")} overview={clickedTv.overview} />}

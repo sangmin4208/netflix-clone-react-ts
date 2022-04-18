@@ -55,9 +55,9 @@ const Search = () => {
   }, [data])
   const keywordMatch = useMatch(router.searchDetail)
   const navigate = useNavigate()
-  const onBoxClicked = (id: number, type?: string) => {
-    if (type) return navigate(`/search/${id}?keyword=${keyword}&type=${type}`)
-    navigate(`/search/${id}?keyword=${keyword}`)
+  const onBoxClicked = (id: number, layoutId: string, type?: string) => {
+    if (type) return navigate(`/search/${id}?keyword=${keyword}&layoutId=${layoutId}&type=${type}`)
+    navigate(`/search/${id}?keyword=${keyword}&layoutId=${layoutId}`)
   }
   const onOverlayClick = () => {
     navigate(router.search + `?keyword=${keyword}`)
@@ -71,12 +71,11 @@ const Search = () => {
       <SearchResult>{keyword} 검색 결과</SearchResult>
       {isLoading ? <Loader>Loading...</Loader> :
         <>
-          <SliderContainer>
-            {movies && <Slider onBoxClicked={onBoxClicked} title={"영화"} videos={movies.slice(1)}></Slider>}
-            {tvs && <Slider onBoxClicked={onBoxClicked} title={"드라마"} videos={tvs}></Slider>}
-          </SliderContainer>
-
-          <AnimatePresence>
+          <AnimatePresence exitBeforeEnter >
+            <SliderContainer>
+              {movies && <Slider onBoxClicked={onBoxClicked} title={"영화"} videos={movies.slice(1)}></Slider>}
+              {tvs && <Slider onBoxClicked={onBoxClicked} title={"드라마"} videos={tvs}></Slider>}
+            </SliderContainer>
             {keywordMatch ? <>
               <Overlay onClick={onOverlayClick} exit={{ opacity: 0 }} animate={{ opacity: 1 }} />
               {clickedShow && <Modal type="movie" id={keywordMatch.params.id!} title={clickedShow.title} image={makeImagePath(clickedShow.backdrop_path, "w500")} overview={clickedShow.overview} />}

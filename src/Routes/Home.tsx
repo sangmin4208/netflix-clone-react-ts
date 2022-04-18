@@ -43,8 +43,8 @@ const Home = () => {
     useQuery<Show[]>(['movie', 'upcoming'], upcomingMovie);
   const bigMovieMatch = useMatch(router.movies)
   const navigate = useNavigate()
-  const onBoxClicked = (movieId: number) => {
-    navigate(`/movies/${movieId}?type=movie`)
+  const onBoxClicked = (movieId: number, layoutId: string) => {
+    navigate(`/movies/${movieId}?type=movie&layoutId=${layoutId}`)
   }
 
   const onOverlayClick = () => {
@@ -65,10 +65,10 @@ const Home = () => {
               overview={nowPlayingMovieData[0].overview}
               image={nowPlayingMovieData[0].backdrop_path}
             />}
-          {nowPlayingMovieData && <Slider onBoxClicked={onBoxClicked} title={"현재 상영"} videos={nowPlayingMovieData.slice(1)}></Slider>}
-          {topMovieData && <Slider onBoxClicked={onBoxClicked} title={"인기 영화"} videos={topMovieData}></Slider>}
-          {upcomingData && <Slider onBoxClicked={onBoxClicked} title={"개봉 예정"} videos={upcomingData}></Slider>}
-          <AnimatePresence>
+          <AnimatePresence exitBeforeEnter >
+            {nowPlayingMovieData && <Slider onBoxClicked={onBoxClicked} title={"현재 상영"} videos={nowPlayingMovieData.slice(1)}></Slider>}
+            {topMovieData && <Slider onBoxClicked={onBoxClicked} title={"인기 영화"} videos={topMovieData}></Slider>}
+            {upcomingData && <Slider onBoxClicked={onBoxClicked} title={"개봉 예정"} videos={upcomingData}></Slider>}
             {bigMovieMatch ? <>
               <Overlay onClick={onOverlayClick} exit={{ opacity: 0 }} animate={{ opacity: 1 }} />
               {clickedMovie && <Modal type="movie" id={bigMovieMatch.params.id!} title={clickedMovie.title} image={makeImagePath(clickedMovie.backdrop_path, "w500")} overview={clickedMovie.overview} />}

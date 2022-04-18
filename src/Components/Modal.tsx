@@ -81,7 +81,7 @@ const Budget = styled.div`
 const Popularities = styled.div``
 
 interface modalProp {
-  id: string
+  id: string,
   title: string,
   overview: string,
   image: string,
@@ -92,10 +92,10 @@ interface modalProp {
 const Modal = ({ id, title, overview, image }: modalProp) => {
   const [searchParams, _] = useSearchParams();
   const type = useMemo(() => searchParams.get('type'), [searchParams])
+  const layoutId = useMemo(() => searchParams.get('layoutId'), [searchParams])
   const { data, isLoading } = useQuery<IDetailResult>([type, 'detail'],
     () => { return type === "tv" ? getTvDetail(id) : getMovieDetail(id) })
-
-  return <Wrapper layoutId={id} >
+  return <Wrapper layoutId={layoutId!} >
     <BigCover style={{ backgroundImage: `linear-gradient(to top, black, transparent), url(${image})` }} />
     <ModalContent>
       <BigTitle>{title}</BigTitle>

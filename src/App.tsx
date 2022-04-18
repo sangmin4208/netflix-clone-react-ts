@@ -8,7 +8,7 @@ import Tv from "./Routes/Tv"
 function App() {
 
   return (
-    <BrowserRouter>
+    <BrowserRouter basename="netflix-clone-react-ts">
       <Header />
       <Routes>
         <Route path={router.home} element={<Home />}></Route>

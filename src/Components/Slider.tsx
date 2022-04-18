@@ -100,7 +100,7 @@ interface video {
 interface sliderProps {
   videos: video[]
   title: string
-  onBoxClicked: (id: number, type: string) => void
+  onBoxClicked: (id: number, layoutId: string, type?: string,) => void
 }
 const Slider = ({ title, videos, onBoxClicked }: sliderProps) => {
   const [index, setIndex] = useState<number>(0)
@@ -125,7 +125,7 @@ const Slider = ({ title, videos, onBoxClicked }: sliderProps) => {
               whileHover={"hover"}
               animate={"normal"}
               key={title + video.id}
-              onClick={() => { onBoxClicked(video.id, video.media_type) }}
+              onClick={() => { onBoxClicked(video.id, title + video.id, video.media_type) }}
               bgPhoto={makeImagePath(video.backdrop_path, "w500")}
             >
               <Info variants={infoVariants} >
